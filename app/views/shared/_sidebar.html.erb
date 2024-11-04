@@ -1,0 +1,25 @@
+<aside class="w-20 bg-gray-200 border-r rounded-lg border-gray-200 flex flex-col items-center py-4">
+  
+    <!-- Navigation Items -->
+    <nav class="flex-1 w-full">
+      <ul class="space-y-4 px-2">
+        <!-- Dashboard -->
+        <% @sidebar.each do |nav| %>
+            <%= link_to nav[:link], class: "block py-3 px-2 text-center rounded-lg #{current_page?(nav[:link]) ? 'bg-midnight-blue-950 text-white' : 'text-midnight-blue-950 hover:bg-midnight-blue-950 hover:text-white'}" do %>
+                <div class="inline-flex flex-col items-center">
+                    <%= inline_svg_tag "#{nav[:icon]}.svg", class: nav[:classes].present? ? nav[:classes] : 'w-6 h-6' %>
+                </div>
+            <% end %>
+        <% end %>
+      </ul>
+    </nav>
+  
+    <!-- Warnings Icon at Bottom -->
+    <div class="mt-auto block py-3 px-2 text-center">
+      <div class="inline-flex flex-col items-center">
+        <svg class="w-6 h-6 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+        </svg>
+      </div>
+    </div>
+</aside>

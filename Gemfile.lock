@@ -98,10 +98,14 @@ GEM
       responders
       warden (~> 1.2.3)
     erubi (1.13.0)
+    foreman (0.88.1)
     globalid (1.2.1)
       activesupport (>= 6.1)
     i18n (1.14.6)
       concurrent-ruby (~> 1.0)
+    inline_svg (1.10.0)
+      activesupport (>= 3.0)
+      nokogiri (>= 1.6)
     io-console (0.7.2)
     irb (1.14.1)
       rdoc (>= 4.0.0)
@@ -136,6 +140,8 @@ GEM
     net-smtp (0.5.0)
       net-protocol
     nio4r (2.7.4)
+    nokogiri (1.16.7-arm64-darwin)
+      racc (~> 1.4)
     nokogiri (1.16.7-x86_64-linux)
       racc (~> 1.4)
     orm_adapter (0.5.0)
@@ -187,6 +193,7 @@ GEM
       actionpack (>= 5.2)
       railties (>= 5.2)
     rexml (3.3.9)
+    rolify (6.0.1)
     rubyzip (2.3.2)
     selenium-webdriver (4.26.0)
       base64 (~> 0.2)
@@ -227,6 +234,7 @@ GEM
     zeitwerk (2.7.1)
 
 PLATFORMS
+  arm64-darwin-23
   x86_64-linux
 
 DEPENDENCIES
@@ -235,11 +243,14 @@ DEPENDENCIES
   cssbundling-rails
   debug
   devise
+  foreman
+  inline_svg
   jbuilder
   jsbundling-rails
   pg (~> 1.1)
   puma (~> 5.0)
   rails (~> 7.0.8, >= 7.0.8.4)
+  rolify
   selenium-webdriver
   sprockets-rails
   stimulus-rails

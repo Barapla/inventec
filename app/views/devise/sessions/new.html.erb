@@ -1,0 +1,56 @@
+
+<!-- Left side with text and background shapes -->
+<div class="w-1/2 relative p-8 flex items-center">
+  <!-- Background shapes -->
+  <div class="absolute top-0 left-0 w-full h-full overflow-hidden">
+    <%= image_tag "top-blob.svg", class: "absolute top-0 left-0 w-96 h-96 -translate-x-1/2 -translate-y-1/2" %>
+    <%= image_tag "bottom-blob.svg", class: "absolute bottom-0 right-0 w-full h-96 translate-x-1/4 translate-y-1/2" %>
+  </div>
+  
+  <!-- Text content -->
+  <p class="text-blue-900 text-lg z-10 max-w-md">
+    El Instituto Tecnológico de Tijuana (ITT), la institución 
+    de educación superior más grande del Tecnológico 
+    Nacional de México, cumple este 17 de septiembre 53 
+    años de existencia beneficiando a la juventud estudiosa 
+    de Tijuana y del Estado de Baja California.
+  </p>
+</div>
+
+<div class="flex items-center w-1/2">
+  <!-- Right side with login form -->
+  <div class="w-full bg-blue-900 relative h-[90%] p-8 rounded-l-3xl flex items-center">
+    <div class="w-full max-w-md mx-auto space-y-8">
+      <h1 class="text-white text-5xl font-bold mb-12">Inventario</h1>
+      
+      <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "space-y-6" }) do |f| %>
+        <div class="space-y-2">
+          <%= f.label :email, class: "block text-white" %>
+          <%= f.email_field :email, autofocus: true, autocomplete: "email", 
+              class: "w-full p-3 rounded-md text-gray-900", 
+              placeholder: "correo@ejemplo.com" %>
+        </div>
+
+        <div class="space-y-2">
+          <%= f.label :password, class: "block text-white" %>
+          <%= f.password_field :password, autocomplete: "current-password", 
+              class: "w-full p-3 rounded-md text-gray-900", 
+              placeholder: "••••••••" %>
+        </div>
+        <!-- 
+          <% if devise_mapping.rememberable? %>
+            <div class="flex items-center text-white">
+              <%= f.check_box :remember_me, class: "h-4 w-4 rounded border-gray-300 mr-2" %>
+              <%= f.label :remember_me, class: "text-sm" %>
+            </div>
+          <% end %> 
+        -->
+
+        <%= f.submit "Iniciar sesión", 
+            class: "w-full bg-white text-blue-900 py-3 px-4 rounded-md 
+                    hover:bg-gray-100 transition-colors font-medium cursor-pointer" %>
+      <% end %>
+
+    </div>
+  </div>
+</div>

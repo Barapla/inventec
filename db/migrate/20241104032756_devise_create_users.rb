@@ -6,6 +6,8 @@ class DeviseCreateUsers < ActiveRecord::Migration[7.0]
       ## Database authenticatable
       t.string :uuid, null: false, default: -> { 'gen_random_uuid()' }
       t.boolean :active, default: true
+      t.string :first_name
+      t.string :last_name
       t.string :email,              null: false, default: ""
       t.string :encrypted_password, null: false, default: ""
 
@@ -32,9 +34,7 @@ class DeviseCreateUsers < ActiveRecord::Migration[7.0]
       ## Lockable
       # t.integer  :failed_attempts, default: 0, null: false # Only if lock strategy is :failed_attempts
       # t.string   :unlock_token # Only if unlock strategy is :email or :both
-      # t.datetime :locked_at
-
-      t.references :role, null: false, foreign_key: true
+      # t.datetime :locked_ta
 
       t.timestamps null: false
     end

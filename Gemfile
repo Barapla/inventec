@@ -75,3 +75,6 @@ group :test do
 end
 
 gem 'devise'
+gem 'foreman'
+gem 'rolify'
+gem 'inline_svg'
