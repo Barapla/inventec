@@ -7,16 +7,16 @@ module SharedHelper
         classes: 'w-5 h-5'
       },
       {
-        link: "/inventory",
+        link: institution_items_path,
         icon: 'inventory-icon'
       },
       {
-        link: "/shipping",
+        link: movements_path,
         icon: 'shipping-icon',
         classes: 'w-8 h-8'
       },
       {
-        link: "/orders",
+        link: employees_path,
         icon: 'briefcase-icon'
       },
       {

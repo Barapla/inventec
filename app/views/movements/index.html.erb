@@ -1,0 +1,105 @@
+<!-- app/views/movements/index.html.erb -->
+<div class="space-y-6">
+    <%= turbo_frame_tag "modal" %>
+
+    <!-- Search and Create Bar -->
+    <div class="flex items-center justify-between">
+        <div class="flex-1 w-full bg-gray-300 rounded-lg p-4 shadow-sm mr-4">
+            <form class="relative">
+            <input 
+                type="text" 
+                placeholder="Buscar movimiento" 
+                class="w-full pl-4 pr-12 py-3 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            >
+            <button type="submit" class="absolute right-2 top-1/2 -translate-y-1/2 px-3 py-2 bg-midnight-blue-950 text-white rounded-lg flex items-center hover:bg-midnight-blue-900">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+                Buscar
+            </button>
+            </form>
+        </div>
+        <div class="bg-gray-300 rounded-lg p-4 shadow-sm">
+          <%= link_to new_movement_path, 
+              class: "px-4 py-3 bg-green-500 text-white rounded-lg flex items-center hover:bg-green-600 transition-colors",
+              data: { 
+                turbo_frame: "modal",
+                turbo_stream: true
+              } do %>
+              <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+              </svg>
+              Crear
+          <% end %>
+        </div>
+    </div>
+  
+    <!-- Movements Table -->
+    <div class="bg-gray-300 rounded-lg shadow-sm">
+      <div class="p-6">
+        <h1 class="text-2xl font-semibold text-blue-900 text-center mb-6">Movimientos</h1>
+        
+        <table class="w-full">
+          <thead>
+            <tr class="border-b border-gray-200">
+              <th class="text-left pb-3 text-blue-900 font-semibold">Producto</th>
+              <th class="text-left pb-3 text-blue-900 font-semibold">Empleado</th>
+              <th class="text-left pb-3 text-blue-900 font-semibold">Institución</th>
+              <th class="text-left pb-3 text-blue-900 font-semibold">Tipo</th>
+              <th class="text-left pb-3 text-blue-900 font-semibold">Estado</th>
+              <th class="text-left pb-3 text-blue-900 font-semibold">Cantidad</th>
+              <th class="text-center pb-3 text-blue-900 font-semibold">Acciones</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-100">
+            <% Movement.all.order(created_at: :desc).each do |movement| %>
+              <tr class="hover:bg-gray-50">
+                <td class="py-3 text-gray-700"><%= movement.institution_item.item.name %></td>
+                <td class="py-3 text-gray-700"><%= movement.employee.name %></td>
+                <td class="py-3 text-gray-700"><%= movement.institution.name %></td>
+                <td class="py-3 text-gray-700">
+                  <span class="<%= movement.movement_type == 'Entrada' ? 'text-green-600' : 'text-red-600' %>">
+                    <%= movement.movement_type %>
+                  </span>
+                </td>
+                <td class="py-3">
+                  <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full
+                    <%= case movement.status
+                        when 'Pendiente'
+                          'bg-yellow-100 text-yellow-800'
+                        when 'Aprobado'
+                          'bg-green-100 text-green-800'
+                        when 'Rechazado'
+                          'bg-red-100 text-red-800'
+                        end %>">
+                    <%= movement.status %>
+                  </span>
+                </td>
+                <td class="py-3 text-gray-700"><%= movement.amount %></td>
+                <td class="flex justify-center py-3 space-x-2">
+                    <%= link_to edit_movement_path(movement), 
+                        class: "inline-flex items-center px-3 py-1.5 bg-blue-900 text-white rounded-md hover:bg-blue-800 transition-colors",
+                        data: { 
+                            turbo_frame: "modal",
+                            turbo_stream: true } do %>
+                        Editar
+                    <% end %>
+                  
+                    <%= button_to movement_path(movement), 
+                        method: :delete, 
+                        class: "inline-flex items-center px-3 py-1.5 bg-red-500 text-white rounded-md hover:bg-red-600 transition-colors", 
+                        form: { data: { turbo_confirm: '¿Estás seguro?' } } do %>
+                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                        </svg>
+                        Borrar
+                    <% end %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+</div>
+
