@@ -3,6 +3,21 @@ module Admin
     before_action :authenticate_user!
 
     def index
+      @users = if params[:query].present?
+        User.where("CONCAT(first_name, ' ', last_name) ILIKE ?", "%#{params[:query]}%")
+      else
+        User.all
+      end
+  
+      respond_to do |format|
+        format.html
+        format.turbo_stream { 
+          render turbo_stream: turbo_stream.update("users", 
+            partial: "table", 
+            locals: { users: @users }
+          )
+        }
+      end
     end
 
     def new

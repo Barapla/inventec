@@ -39,7 +39,7 @@
                 </div>
 
                 <div>
-                  <%= f.label :institution_id, "Institución", class: "block text-sm font-medium text-blue-900 mb-1" %>
+                  <%= f.label :institution_id, "Institución destino", class: "block text-sm font-medium text-blue-900 mb-1" %>
                   <%= f.collection_select :institution_id,
                       Institution.all, :id, :name,
                       {},

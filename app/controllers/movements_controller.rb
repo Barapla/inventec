@@ -4,6 +4,23 @@ class MovementsController < ApplicationController
   before_action :set_movement, only: [:edit, :update, :destroy]
 
   def index
+    @movements = if params[:query].present?
+      Movement.joins(institution_item: :item)
+              .where("items.name ILIKE ?", "%#{params[:query]}%")
+    else
+      Movement.all
+    end
+  
+    respond_to do |format|
+      format.html
+      format.turbo_stream {
+        render turbo_stream: turbo_stream.update(
+          "movements",
+          partial: "table",
+          locals: { movements: @movements }
+        )
+      }
+    end
   end
 
   def new

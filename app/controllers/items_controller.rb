@@ -3,6 +3,21 @@ class ItemsController < ApplicationController
   before_action :authenticate_user!
 
   def index
+    @items = if params[:query].present?
+      Item.where("name ILIKE ?", "%#{params[:query]}%")
+    else
+      Item.all
+    end
+
+    respond_to do |format|
+      format.html
+      format.turbo_stream { 
+        render turbo_stream: turbo_stream.update("items", 
+          partial: "table", 
+          locals: { items: @items }
+        )
+      }
+    end
   end
 
   def new

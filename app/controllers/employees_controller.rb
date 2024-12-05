@@ -4,6 +4,21 @@ class EmployeesController < ApplicationController
   before_action :set_employee, only: [:edit, :update, :destroy]
 
   def index
+    @employees = if params[:query].present?
+      Employee.where("CONCAT(first_name, ' ', last_name) ILIKE ?", "%#{params[:query]}%")
+    else
+      Employee.all
+    end
+
+    respond_to do |format|
+      format.html
+      format.turbo_stream { 
+        render turbo_stream: turbo_stream.update("employees", 
+          partial: "table", 
+          locals: { employees: @employees }
+        )
+      }
+    end
   end
 
   def new

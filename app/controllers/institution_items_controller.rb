@@ -4,6 +4,23 @@ class InstitutionItemsController < ApplicationController
   before_action :set_institution_item, only: [:edit, :update, :destroy]
 
   def index
+    @institution_items = if params[:query].present?
+      InstitutionItem.joins(:item)
+                     .where("items.name ILIKE ?", "%#{params[:query]}%")
+    else
+      InstitutionItem.all
+    end
+  
+    respond_to do |format|
+      format.html
+      format.turbo_stream {
+        render turbo_stream: turbo_stream.update(
+          "institution_items",
+          partial: "table",
+          locals: { institution_items: @institution_items }
+        )
+      }
+    end
   end
 
   def new

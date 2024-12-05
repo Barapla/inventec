@@ -1,23 +1,25 @@
 <!-- app/views/institution_items/index.html.erb -->
 <div class="space-y-6">
     <%= turbo_frame_tag "modal" %>
-
     <!-- Search and Create Bar -->
     <div class="flex items-center justify-between">
-        <div class="flex-1 w-full bg-gray-300 rounded-lg p-4 shadow-sm mr-4">
-            <form class="relative">
-            <input 
-                type="text" 
-                placeholder="Buscar item institucional" 
-                class="w-full pl-4 pr-12 py-3 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            >
-            <button type="submit" class="absolute right-2 top-1/2 -translate-y-1/2 px-3 py-2 bg-midnight-blue-950 text-white rounded-lg flex items-center hover:bg-midnight-blue-900">
-                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div class="flex-1 w-full bg-gray-300 rounded-lg p-4 shadow-sm mr-4"
+              data-controller="search"
+              data-search-url-value="<%= institution_items_url %>">
+          <%= form_with(url: institution_items_path, method: :get, class: "relative", data: { action: "submit->search#perform" }) do |f| %>
+            <%= f.text_field :query,
+                placeholder: "Buscar producto en institución",
+                class: "w-full pl-4 pr-12 py-3 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent",
+                data: { search_target: "query" }
+            %>
+            
+            <%= button_tag type: :submit, class: "absolute right-2 top-1/2 -translate-y-1/2 px-3 py-2 bg-midnight-blue-950 text-white rounded-lg flex items-center hover:bg-midnight-blue-900" do %>
+              <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                </svg>
-                Buscar
-            </button>
-            </form>
+              </svg>
+              Buscar
+            <% end %>
+          <% end %>
         </div>
         <div class="bg-gray-300 rounded-lg p-4 shadow-sm">
           <%= link_to new_institution_item_path, 
@@ -38,45 +40,9 @@
     <div class="bg-gray-300 rounded-lg shadow-sm">
       <div class="p-6">
         <h1 class="text-2xl font-semibold text-blue-900 text-center mb-6">Inventario</h1>
-        
-        <table class="w-full">
-          <thead>
-            <tr class="border-b border-gray-200">
-              <th class="text-left pb-3 text-blue-900 font-semibold">Producto</th>
-              <th class="text-left pb-3 text-blue-900 font-semibold">Institución</th>
-              <th class="text-left pb-3 text-blue-900 font-semibold">Cantidad</th>
-              <th class="text-center pb-3 text-blue-900 font-semibold">Acciones</th>
-            </tr>
-          </thead>
-          <tbody class="divide-y divide-gray-100">
-            <% InstitutionItem.all.order(:id).each do |institution_item| %>
-              <tr class="hover:bg-gray-50">
-                <td class="py-3 text-gray-700"><%= institution_item.item.name %></td>
-                <td class="py-3 text-gray-700"><%= institution_item.institution.name %></td>
-                <td class="py-3 text-gray-700"><%= institution_item.amount %></td>
-                <td class="flex justify-center py-3 space-x-2">
-                    <%= link_to edit_institution_item_path(institution_item), 
-                        class: "inline-flex items-center px-3 py-1.5 bg-blue-900 text-white rounded-md hover:bg-blue-800 transition-colors",
-                        data: { 
-                            turbo_frame: "modal",
-                            turbo_stream: true } do %>
-                        Editar
-                    <% end %>
-                  
-                    <%= button_to institution_item_path(institution_item), 
-                        method: :delete, 
-                        class: "inline-flex items-center px-3 py-1.5 bg-red-500 text-white rounded-md hover:bg-red-600 transition-colors", 
-                        form: { data: { turbo_confirm: '¿Estás seguro?' } } do %>
-                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                        </svg>
-                        Borrar
-                    <% end %>
-                </td>
-              </tr>
-            <% end %>
-          </tbody>
-        </table>
+        <%= turbo_frame_tag "institution_items" do %>
+          <%= render partial: "table", locals: { institution_items: @institution_items } %>
+        <% end %>
       </div>
     </div>
 </div>
